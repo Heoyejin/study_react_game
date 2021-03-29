@@ -41,13 +41,21 @@
                   value: ''
                 }
               });
+              this.input.focus();
           } else {
             this.setState({
               result: '땡',
               value: ''
             });
+            this.input.focus();
           }
         };
+
+        input;
+
+        onRefInput = (c) => { 
+          this.input = c;
+        }
 
         render() {
           // 태그 중간에 중괄호를 사용하면 자바스크립트 사용가능
@@ -57,7 +65,7 @@
             <React.Fragment>
               <div>{ this.state.fisrt }곱하기{ this.state.second }는?</div>
               <form onSubmit={ this.onSubmit }>
-                <input type='number' value={ this.state.value} onChange={ this.onChange } />
+                <input ref={ this.onRefInput } type='number' value={ this.state.value} onChange={ this.onChange } />
                 <button>입력@</button>
               </form>
               <div>{ this.state.result }</div>
