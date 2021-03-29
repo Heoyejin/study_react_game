@@ -11,6 +11,7 @@
     <script type='text/babel'>
 
       class GuGuDan extends React.Component {
+        // constructor는 생략 가능
         constructor(props) {
           super(props);
           // 바뀌는 것을 state로!!!!
@@ -25,6 +26,8 @@
         onChange = (e) => {
           this.setState({ value: e.target.value }) 
         }
+
+        // 여기서 function () {} 이런 형태로 사용하면 this가 달라짐. 화살표 함수 사용해야함 
         onSubmit = (e) => {
           e.preventDefault();
           if (parseInt(this.state.value) === this.state.first * this.state.second) {
@@ -45,15 +48,16 @@
         render() {
           // 태그 중간에 중괄호를 사용하면 자바스크립트 사용가능
           // input에 글씨가 안 써지는 이유는 state로 설정해놨기 때문임. 키 입력을 통해 변경 하려면 직접 onChange이벤트를 사용해서 핸들링 해야 함 ! 
+          // 기존에는 가장 바깥에 div태그로 감싸줬어야 하는데 이걸 React.Fragment로 개선
           return (
-            <div>
+            <React.Fragment>
               <div>{ this.state.fisrt }곱하기{ this.state.second }는?</div>
               <form onSubmit={ this.onSubmit }>
                 <input type='number' value={ this.state.value} onChange={ this.onChange } />
                 <button>입력@</button>
               </form>
               <div>{ this.state.result }</div>
-            </div>
+            </React.Fragment>
           );
         }
       }
