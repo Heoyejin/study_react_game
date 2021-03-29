@@ -22,14 +22,34 @@
           };
         }
 
+        onChange = (e) => {
+          this.setState({ value: e.target.value }) 
+        }
+        onSubmit = (e) => {
+          e.preventDefault();
+          if (parseInt(this.state.value) === this.state.first * this.state.second) {
+              this.setState({
+                result: '정답',
+                fisrt: Math.ceil(Math.random() * 9),
+                second: Math.ceil(Math.random() * 9),
+                value: ''
+              })
+          } else {
+            this.setState({
+              result: '땡',
+              value: ''
+            });
+          }
+        };
+
         render() {
           // 태그 중간에 중괄호를 사용하면 자바스크립트 사용가능
-          // input에 글씨가 안 써지는 이유는 state로 설정해놨기 때문임. 키 입력을 통해 변경 하려면 onChange이벤트를 사용해야함 ! 
+          // input에 글씨가 안 써지는 이유는 state로 설정해놨기 때문임. 키 입력을 통해 변경 하려면 직접 onChange이벤트를 사용해서 핸들링 해야 함 ! 
           return (
             <div>
               <div>{ this.state.fisrt }곱하기{ this.state.second }는?</div>
-              <form>
-                <input type='number' value={ this.state.value} onChange={ (e) => this.setState({ value: e.target.value })} />
+              <form onSubmit={ this.onSubmit }>
+                <input type='number' value={ this.state.value} onChange={ this.onChange } />
                 <button>입력@</button>
               </form>
               <div>{ this.state.result }</div>
