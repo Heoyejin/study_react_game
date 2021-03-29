@@ -1,0 +1,48 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+<body>
+    <div id="root"></div> <!-- <div id="root"><button>Like</button></div> -->
+    <script type='text/babel'>
+
+      class GuGuDan extends React.Component {
+        constructor(props) {
+          super(props);
+          // 바뀌는 것을 state로!!!!
+          this.state = {
+            fisrt: Math.ceil(Math.random() * 9),
+            second: Math.ceil(Math.random() * 9),
+            value: '',
+            result: ''
+          };
+        }
+
+        render() {
+          // 태그 중간에 중괄호를 사용하면 자바스크립트 사용가능
+          // input에 글씨가 안 써지는 이유는 state로 설정해놨기 때문임. 키 입력을 통해 변경 하려면 onChange이벤트를 사용해야함 ! 
+          return (
+            <div>
+              <div>{ this.state.fisrt }곱하기{ this.state.second }는?</div>
+              <form>
+                <input type='number' value={ this.state.value} onChange={ (e) => this.setState({ value: e.target.value })} />
+                <button>입력@</button>
+              </form>
+              <div>{ this.state.result }</div>
+            </div>
+          );
+        }
+      }
+    </script>
+    <script type='text/babel'> 
+      // <LikeButton />는 컴포넌트로 재 사용 가능
+      ReactDOM.render(<div>
+        <GuGuDan />
+      </div>, document.querySelector('#root'));
+    </script>
+</body>
+</html>
