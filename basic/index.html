@@ -2,11 +2,11 @@
 <head>
   <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
   <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
 </head>
 <body>
     <div id="root"></div> <!-- <div id="root"><button>Like</button></div> -->
-    <script>
-      const e = React.createElement;
+    <script type='text/babel'>
 
       class LikeButton extends React.Component {
         constructor(props) {
@@ -18,16 +18,20 @@
         }
 
         render() {
-          return e(
-            'button', 
-            { onClick: () => { this.setState({liked: true}) }, type: 'submit' }, 
-            this.state.liked === true ? 'Liked' : 'Like'); 
-          // <button onClick='', type='submit' }>Like</button>
+          // javascript에서는 이런 Html 형식을 지원해주지 않기 때문에 babel의 도움 받기
+          return <button onClick={ () => { this.setState({liked: true})} }>
+            { this.state.liked === true ? 'Liked' : 'Like' }
+            </button>
+          // JSX ( JS + XML )
         }
       }
     </script>
-    <script>
-      ReactDOM.render(e(LikeButton), document.querySelector('#root'));
+    <script type='text/babel'> 
+      // <LikeButton />는 컴포넌트로 재 사용 가능
+      ReactDOM.render(<div>
+        <LikeButton />
+        <LikeButton />
+      </div>, document.querySelector('#root'));
     </script>
 </body>
 </html>
