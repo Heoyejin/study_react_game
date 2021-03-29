@@ -31,12 +31,16 @@
         onSubmit = (e) => {
           e.preventDefault();
           if (parseInt(this.state.value) === this.state.first * this.state.second) {
-              this.setState({
-                result: '정답',
-                fisrt: Math.ceil(Math.random() * 9),
-                second: Math.ceil(Math.random() * 9),
-                value: ''
-              })
+              // setState안에 함수를 정의해서 이전 값을 사용할 수 있음.
+              // setState는 비동기이기 때문에 이런 형태를 자주 사용함.
+              this.setState((PrevState) => {
+                return {
+                  result: '정답' + PrevState.value,
+                  fisrt: Math.ceil(Math.random() * 9),
+                  second: Math.ceil(Math.random() * 9),
+                  value: ''
+                }
+              });
           } else {
             this.setState({
               result: '땡',
