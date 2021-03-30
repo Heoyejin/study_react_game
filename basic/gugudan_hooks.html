@@ -1,0 +1,58 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+
+      // Hooks를 사용해서 Class를 작성할 필요 없이 상태 값과 여러 React의 기능을 사용할 수 있음
+      const GuGuDan = () => {
+        // 컴포넌트 안에 다음과 같이 선언해서
+        const [first, setFirst] = React.useState(Math.ceil(Math.random() * 9));
+        const [second, setSecond] = React.useState(Math.ceil(Math.random() * 9));
+        const [result, setResult] = React.useState('');
+        const [value, setValue] = React.useState('');
+        // ref는 useRef를 이용해서 접근
+        const inputRef = React.useRef(null);
+
+        const onChangeInput = (e) => {
+          setValue(e.target.value);
+        };
+
+        const onSubmitForm = (e) => {
+          e.preventDefault();
+          if (parseInt(value) === first * second) {
+            setResult('정답' + value);
+            setFirst(Math.ceil(Math.random() * 9));
+            setSecond(Math.ceil(Math.random() * 9));
+            setValue('');
+            inputRef.current.focus();
+          } else {
+            setValue('');
+            setResult('땡');
+            inputRef.current.focus();
+          }
+        };
+
+        return (
+          <React.Fragment>
+            <div>{fisrt}곱하기{second}는?</div>
+            <form onSubmit={onSubmitForm}>
+              <input ref={inputRef} type='number' value={value} onChange={onChangeInput} />
+              <button>입력@</button>
+            </form>
+            <div>{result}</div>
+          </React.Fragment>)
+      }
+    </script>
+    <script type="text/babel">
+      ReactDOM.render(
+        <div><GuGuDan /></div>, document.querySelector('#root'));
+    </script>
+</body>
+</html>
