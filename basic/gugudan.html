@@ -24,10 +24,10 @@
         }
 
         onChange = (e) => {
-          this.setState({ value: e.target.value }) 
+          this.setState({ value: e.target.value })
         }
 
-        // 여기서 function () {} 이런 형태로 사용하면 this가 달라짐. 화살표 함수 사용해야함 
+        // 여기서 function () {} 이런 형태로 사용하면 this가 달라짐. 화살표 함수 사용해야함
         onSubmit = (e) => {
           e.preventDefault();
           if (parseInt(this.state.value) === this.state.first * this.state.second) {
@@ -53,20 +53,21 @@
 
         input;
 
-        onRefInput = (c) => { 
+        onRefInput = (c) => {
           this.input = c;
         }
 
         render() {
           // 태그 중간에 중괄호를 사용하면 자바스크립트 사용가능
-          // input에 글씨가 안 써지는 이유는 state로 설정해놨기 때문임. 키 입력을 통해 변경 하려면 직접 onChange이벤트를 사용해서 핸들링 해야 함 ! 
+          // input에 글씨가 안 써지는 이유는 state로 설정해놨기 때문임. 키 입력을 통해 변경 하려면 직접 onChange이벤트를 사용해서 핸들링 해야 함 !
           // 기존에는 가장 바깥에 div태그로 감싸줬어야 하는데 이걸 React.Fragment로 개선
+          // React에서 사용할 수 없는 속성은 html의 class와 for(label for)이 있음. 각각 className, htmlFor로 사용해야함
           return (
             <React.Fragment>
               <div>{ this.state.fisrt }곱하기{ this.state.second }는?</div>
               <form onSubmit={ this.onSubmit }>
                 <input ref={ this.onRefInput } type='number' value={ this.state.value} onChange={ this.onChange } />
-                <button>입력@</button>
+                <button className='' htmlFor=''>입력@</button>
               </form>
               <div>{ this.state.result }</div>
             </React.Fragment>
@@ -74,7 +75,7 @@
         }
       }
     </script>
-    <script type='text/babel'> 
+    <script type='text/babel'>
       // <LikeButton />는 컴포넌트로 재 사용 가능
       ReactDOM.render(<div>
         <GuGuDan />
