@@ -1,0 +1,27 @@
+{
+  "name": "study_react_basic_game_",
+  "version": "1.0.0",
+  "description": "zerocho youtube basic 강의 (https://www.youtube.com/watch?v=e-ZeEi6ABFY&t=183s)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Heoyejin/study_react_game.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Heoyejin/study_react_game/issues"
+  },
+  "homepage": "https://github.com/Heoyejin/study_react_game#readme",
+  "dependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "devDependencies": {
+    "webpack": "^5.28.0",
+    "webpack-cli": "^4.6.0"
+  }
+}
