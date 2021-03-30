@@ -4,7 +4,8 @@
   "description": "zerocho youtube basic 강의 (https://www.youtube.com/watch?v=e-ZeEi6ABFY&t=183s)",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "webpack"
   },
   "repository": {
     "type": "git",
@@ -21,6 +22,11 @@
     "react-dom": "^17.0.2"
   },
   "devDependencies": {
+    "@babel/core": "^7.13.14",
+    "@babel/plugin-proposal-class-properties": "^7.13.0",
+    "@babel/preset-env": "^7.13.12",
+    "@babel/preset-react": "^7.13.13",
+    "babel-loader": "^8.2.2",
     "webpack": "^5.28.0",
     "webpack-cli": "^4.6.0"
   }
