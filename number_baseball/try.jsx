@@ -1,15 +1,12 @@
 import React, {Component} from 'react';
 
 class Try extends Component {
-  state = {
-
-  }
 
   render() {
     return (
       <li>
-        <b>{this.props.value.first} - {this.props.index}</b>
-        <div>: {this.props.value.second}</div>
+        <b>{this.props.index + 1} 번 째 입력 (<span style={{color:'red'}}>{this.props.tryInfo.try}</span>)</b>
+        <div>: {this.props.tryInfo.result}</div>
       </li>
     ) 
   }
