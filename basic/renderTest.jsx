@@ -1,21 +1,23 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 
-class RenderTest extends Component {
+class RenderTest extends PureComponent {
   state = {
-    counter:0
-  }
-
-  // 지금 까지 만들어온 예제들은 변경되는 부분만 랜더링 하는 방식이 아니라 전체를 랜더링함
-  // 이런 이슈를 해결하기 위해서 아래 함수로 랜더링 할 부분을 핸들링 해줘야함
-  shouldComponentUpdate(nextProps, nextState, nextContext) {
-    if (this.state.counter != nextState.counter) {
-      return true;
-    }
-    return false;
+    counter: 0,
+    string: 'hello',
+    number: 1,
+    boolean: true,
+    // 단점은 object, array의 변경 여부를 파악하기 어려움 (ex) array.push)
+    object: {},
+    // 배열에 객체를 넣는 경우 변경되지 않아도 랜더링 되기 때문에 객체 형태는 사용하지 않는 것을 권장
+    array: [ {} ]
   }
 
   onClick = () => {
-    this.setState({});
+    const array = this.state.array;
+    // array.push(1);
+    this.setState({
+      array: [...array, 1]
+    });
   }
 
   render () {

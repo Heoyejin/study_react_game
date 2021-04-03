@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, memo } from 'react';
 import Try from './try_hooks';
 
 // this를 사용하지 않는 경우에는 밖에 분리해서 정의하는게 좋음
@@ -13,7 +13,7 @@ function getNumbers() {
   return array;
 }
 
-const NumberBaseball = () => {
+const NumberBaseball = memo(() => {
   const [result, setResult] = useState(''); 
   const [value, setValue] = useState(''); 
   const [answer, setAnswer] = useState(getNumbers()); 
@@ -77,6 +77,6 @@ const NumberBaseball = () => {
       </ul>
     </>
   )
-}
+})
 
 export default NumberBaseball;
