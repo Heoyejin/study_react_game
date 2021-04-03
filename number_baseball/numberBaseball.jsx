@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 import Try from './try';
 
 // this를 사용하지 않는 경우에는 밖에 분리해서 정의하는게 좋음
@@ -72,9 +72,10 @@ class NumberBaseball extends Component {
         })
       }
     }
+    this.inputRef.current.focus();
   }
 
-  input;
+  inputRef = createRef();
 
   onChangeInput = (e) => {
     this.setState({value: e.target.value});
@@ -87,7 +88,7 @@ class NumberBaseball extends Component {
       <>
         <h1>{this.state.result}</h1>
         <form onSubmit={this.onSubmitForm}>
-          <input maxLength={4} value={this.state.value} onChange={this.onChangeInput}></input>
+          <input ref={inputRef} maxLength={4} value={this.state.value} onChange={this.onChangeInput}></input>
           {/* <button>입력</button> */}
         </form>
         <div>시도한 횟수: {this.state.tries.length}</div>
