@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Try from './try';
 
 class NumberBaseball extends Component {
   state = {
@@ -21,6 +22,15 @@ class NumberBaseball extends Component {
     // input.
   }
 
+  alpabat = [
+    {first: 'a',second: 'b'}, 
+    {first:'c', second:'d'}, 
+    {first:'e', second:'f'}, 
+    {first:'g', second:'h'}, 
+    {first:'i', second:'j'}
+  // 이런 식으로 i인자도 사용할 수 있음. key를 
+  ];
+
   render() {
     return (
       <>
@@ -31,14 +41,19 @@ class NumberBaseball extends Component {
         </form>
         <div>남은 횟수: {this.state.tries.length}</div>
         <ul>
-          {[['a','b'], ['c', 'd'], ['e', 'f'], ['g', 'h'], ['i', 'j']].map((value) => {
-            return <li><b>{value[0]}</b>{value[1]}</li>
-          })}
+          {
+            this.alpabat
+            .map((value, i) => {
+              // key를 고유한 값으로 지정해줘야함
+              // value와 index가 React에서는 props라고 불림, key도 필수로 넣어줘야함
+              return <Try key={value.first + i} value={value} index={i}></Try>
+            })
             // map을 이런식으로 정의해서 바로 return 되도록도 사용가능함
             // .map((value, i) => 
             //   // key를 고유한 값으로 지정해줘야함 
             //   <li key={value.first}><b>{value.first}</b>{value.second} - {i}</li>
             // )}   
+          }      
         </ul>
       </>
     )
