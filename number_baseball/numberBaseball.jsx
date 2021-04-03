@@ -9,6 +9,7 @@ class NumberBaseball extends Component {
     tries: []
   }
 
+  // 이 화살표 함수는 함수를 bind(this)를 자동으로 해줌. 이렇게 안해주면 this가 undefined!! 
   onSubmitForm = (e) => {
     this.setState({
       // result: this.state.value'스트라이크' + + '볼',
