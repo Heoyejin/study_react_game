@@ -34,6 +34,11 @@ class NumberBaseball extends Component {
           {[['a','b'], ['c', 'd'], ['e', 'f'], ['g', 'h'], ['i', 'j']].map((value) => {
             return <li><b>{value[0]}</b>{value[1]}</li>
           })}
+            // map을 이런식으로 정의해서 바로 return 되도록도 사용가능함
+            // .map((value, i) => 
+            //   // key를 고유한 값으로 지정해줘야함 
+            //   <li key={value.first}><b>{value.first}</b>{value.second} - {i}</li>
+            // )}   
         </ul>
       </>
     )
