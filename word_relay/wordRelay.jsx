@@ -1,5 +1,6 @@
 // 항상 react 선언하고 사용하기
-const { Component } = require('react');
+const React = require('react');
+const { Component } = React;
 
 class WordRelay extends Component {
   state = {

@@ -1,5 +1,5 @@
 const path = require('path');
-const webpack = require('webpack');
+const refreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
 module.exports = {
   name: 'wordrelay-setting',
@@ -29,12 +29,15 @@ module.exports = {
         presets: [
           ['@babel/preset-env', {
             targets: {
-              browsers: ['last 2 chrome versions']
+              // browsers: ['last 2 chrome versions']
             },
             debug: true
           }], 
           '@babel/preset-react'],
-        plugins: ['@babel/plugin-proposal-class-properties'],
+        plugins: [
+          '@babel/plugin-proposal-class-properties',
+          'react-refresh/babel'
+        ],
 
       }
     }]
@@ -43,10 +46,17 @@ module.exports = {
   // 추가적인 확장 프로그램 !
   // https://webpack.js.org/concepts/ - 웹 팩 공식문서 참고
   plugins: [
-    new webpack.LoaderOptionsPlugin({ debug: true})
+    new refreshWebpackPlugin()
   ],
   output: {
     path: path.join(__dirname, 'dist'), // __dirname - 현재 위치의 폴더
-    filename: 'app.js'
-  } // 출력
+    filename: 'app.js',
+    publicPath: '/dist/'
+  }, // 출력
+  devServer: {
+    publicPath: '/dist/',
+    hot: true,
+    host: "localhost",
+    port: 8088
+  } // 
 };
