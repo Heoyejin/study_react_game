@@ -42,6 +42,7 @@ class RockScissorsPaper extends Component {
     clearInterval(this.interval);
   }
 
+  // 아래 주석처럼 메서드 안에서 함수 호출 하는 경우 이렇게 한번 더 감싸주기!
   onClickBtn = (choice) => () =>  {
     const {imgCoord} = this.state;
     clearInterval(this.interval);
@@ -97,6 +98,7 @@ class RockScissorsPaper extends Component {
       <>
         <div id="computer" style={{ background: `url(https://en.pimg.jp/023/182/267/1/23182267.jpg) ${imgCoord} 0` }} />
         <div>
+          {/* <button id="rock" className="btn" onClick={() => this.onClickBtn('rock')}>바위</button> */}
           <button id="rock" className="btn" onClick={this.onClickBtn('rock')}>바위</button>
           <button id="scissor" className="btn" onClick={this.onClickBtn('scissor')}>가위</button>
           <button id="paper" className="btn" onClick={this.onClickBtn('paper')}>보</button>
