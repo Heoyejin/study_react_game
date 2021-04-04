@@ -25,6 +25,8 @@ const RockScissorsPaper = () => {
 
   // componentDidMount, componentWillUnmount와 비슷한 역할을 함
   // 두번째 인수에 넣은 값이 바뀌는 경우 useEffect가 실행 됨
+  // 여러개의 useEffect 사용가능 (state마다 처리 가능) 
+  // 배열에는 꼭 useEffect를 다시 실행할 값만 넣어야함
   useEffect(() => {
     console.log("useEffect");
     interval.current = setInterval(changeHand, 100);
