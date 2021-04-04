@@ -17,40 +17,24 @@ const scores = {
   paper: -1
 }
 
+const computerChoice = (imgCoord) => {
+  return Object.entries(rspCoords).find(function(v) {
+    return v[1] === imgCoord;
+  })[0];
+}
+
 class RockScissorsPaper extends Component {
   state = {
     result : '',  
     score : 0,
-    imgCoord: 0
+    imgCoord: rspCoords.rock
   }
 
   interval;
 
   // 컴포넌트가 첫 랜더링된 후 발생 -> 여기서 주로 비동기 요청을 처리
   componentDidMount() {
-    
-    this.interval = setInterval(() => {
-      const {imgCoord} = this.state;
-
-      if (imgCoord == rspCoords.rock) {
-        this.setState({
-          imgCoord: rspCoords.scissor
-        });
-      } else if (imgCoord === rspCoords.scissor) {
-        this.setState({
-          imgCoord: rspCoords.paper
-        });
-      } else if (imgCoord === rspCoords.paper) {
-        this.setState({
-          imgCoord: rspCoords.rock
-        });
-      }
-    }, 1000);
-  }
-
-  // 리 렌더링 후에 실행되는 함수 
-  componentDidUpdate() {
-
+    this.interval = setInterval(this.changeHand, 100);
   }
 
   // 컴포넌트가 제거되기 직전 발생 -> 비동기 요청 정리
@@ -58,8 +42,53 @@ class RockScissorsPaper extends Component {
     clearInterval(this.interval);
   }
 
-  onClickBtn = ()=>  {
+  onClickBtn = (choice) => () =>  {
+    const {imgCoord} = this.state;
+    clearInterval(this.interval);
+    const myScore = scores[choice]
+    const cpuScore = scores[computerChoice(imgCoord)];
+    const diff = cpuScore - myScore;
 
+    if (diff === 0) {
+      this.setState({
+        result: '비겼습니다.'
+      })
+    } else if ([-1, 2].includes(diff)) {
+      this.setState((prevState) => {
+        return {
+          result: '이겼습니다.',
+          score: prevState.score + 1
+        }
+      });
+    } else {
+      this.setState((prevState) => {
+        return {
+          result: '졌습니다.',
+          score: prevState.score - 1
+        }
+      });
+    }
+    setTimeout(() => {
+      this.interval = setInterval(this.changeHand, 100);
+    }, 2000);
+  }
+
+  changeHand = () => {
+    const {imgCoord} = this.state;
+
+    if (imgCoord == rspCoords.rock) {
+      this.setState({
+        imgCoord: rspCoords.scissor
+      });
+    } else if (imgCoord === rspCoords.scissor) {
+      this.setState({
+        imgCoord: rspCoords.paper
+      });
+    } else if (imgCoord === rspCoords.paper) {
+      this.setState({
+        imgCoord: rspCoords.rock
+      });
+    }
   }
 
   render() {
