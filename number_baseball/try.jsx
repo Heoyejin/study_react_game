@@ -1,7 +1,15 @@
 import React, {PureComponent} from 'react';
 
 class Try extends PureComponent {
+  constructor(props) {
+    super(props);
 
+    
+    // 함수로 응용해서 사용가능
+    const filtered = this.props.filter(() => {
+
+    });
+  }
   render() {
     return (
       <li>
