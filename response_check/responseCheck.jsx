@@ -70,8 +70,17 @@ class ResponseCheck extends Component {
         >
           {message}
         </div>
-        {/* 리액트에서 조건문은 삼항연산자, &&, || 연산자를 사용함 */}
-        {/*result.length === 0 ? null : <div>평균 시간: {result.reduce((a, c) => a + c) / result.length}ms</div>*/}
+        {/* 리액트에서 조건문을 사용하려면 아래와 같은 형태로 즉시 실행 함수를 선언하여 사용 */}
+        {(() => {
+          if (result.length === 0) {
+            return null;
+          } else {
+            return <>
+              <div>평균 시간: {result.reduce((a, c) => a + c) / result.length}ms</div>
+              <button onClick={this.onReset}>리셋</button>
+          </>
+          }
+        })()}
         {this.renderAverage()}
       </>
     )

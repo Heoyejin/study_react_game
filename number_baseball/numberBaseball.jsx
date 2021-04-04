@@ -93,6 +93,15 @@ class NumberBaseball extends Component {
         </form>
         <div>시도한 횟수: {this.state.tries.length}</div>
         <ul>
+          {/* 반복문도 역시 즉시 실행 함수를 이용해서 사용 */}
+          {(() => {
+            const array = [];
+            for (let i = 0; i < this.state.tries.length; i++) {
+              array.push(<Try key={v + i} tryInfo={v} index={i}></Try>);
+            }
+            return array;
+          })()
+          }
           {
             this.state.tries
             .map((v, i) => {
