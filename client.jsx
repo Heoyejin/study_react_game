@@ -6,6 +6,7 @@ const ReactDom = require('react-dom');
 // import NumberBaseball from './number_baseball/numberBaseball'; 
 // import RenderTest from './basic/renderTest';
 // import ResponseCheck from './response_check/responseCheck';
-import ResponseCheck from './response_check/responseCheck_hooks';
+// import ResponseCheck from './response_check/responseCheck_hooks';
+import RockScissorsPaper from './rock_scissors_paper/RockScissorsPaper';
 
-ReactDom.render(<ResponseCheck />, document.querySelector('#root'));
+ReactDom.render(<RockScissorsPaper />, document.querySelector('#root'));
