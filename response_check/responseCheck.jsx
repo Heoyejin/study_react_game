@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import StateMessage from './stateMessage';
 
 class ResponseCheck extends Component {
   state = {
@@ -45,11 +46,17 @@ class ResponseCheck extends Component {
     }
   }
 
+  onReset = (r) => {
+    this.setState({
+      result: r
+    })
+  }
+
   // 리액트를 가독성 있게 짜는게 가장 어려움.. 이렇게 함수로 빼는게 그나마 나은것 같긴 한데 어쨌든 가독성이 떨어짐.
   renderAverage = () => {
     const { result } = this.state;
     // jsx에서 null, undefined, false 면 태그가 없다고 판단하기 때문에 삼항연산자 사용
-    return result.length === 0 ? null : <div>평균 시간: {result.reduce((a, c) => a + c) / result.length}ms</div>
+    return result.length === 0 ? null : <StateMessage result={result} onReset={this.onReset}/>
   }
 
   render () {
