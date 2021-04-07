@@ -8,6 +8,7 @@ const ReactDom = require('react-dom');
 // import ResponseCheck from './response_check/responseCheck';
 // import ResponseCheck from './response_check/responseCheck_hooks';
 // import RockScissorsPaper from './rock_scissors_paper/RockScissorsPaper';
-import RockScissorsPaper from './rock_scissors_paper/RockScissorsPaper_hooks';
+// import RockScissorsPaper from './rock_scissors_paper/RockScissorsPaper_hooks';
+import Lotto from './lotto/lotto';
 
-ReactDom.render(<RockScissorsPaper />, document.querySelector('#root'));
+ReactDom.render(<Lotto />, document.querySelector('#root'));
