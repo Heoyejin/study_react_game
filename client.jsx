@@ -9,6 +9,7 @@ const ReactDom = require('react-dom');
 // import ResponseCheck from './response_check/responseCheck_hooks';
 // import RockScissorsPaper from './rock_scissors_paper/RockScissorsPaper';
 // import RockScissorsPaper from './rock_scissors_paper/RockScissorsPaper_hooks';
-import Lotto from './lotto/lotto_hooks';
+// import Lotto from './lotto/lotto_hooks';
+import TicTacToe from './tictactoe/ticTacToe';
 
-ReactDom.render(<Lotto />, document.querySelector('#root'));
+ReactDom.render(<TicTacToe />, document.querySelector('#root'));
