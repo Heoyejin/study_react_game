@@ -17,12 +17,22 @@ function getWinNumbers() {
 
 const Lotto = () => {
   // useMemo: 복잡한 함수 결과 값(함수의 return 값)을 기억함, useRef: 일반 값을 기억함
+  // Hooks에서 조건문, 반복문(순서가 확실히 정해진 반복문만 가능) 안에서 선언해주면 안되고 무조건 최상위에서 선언, 선언되는 순서도 중요함
   const [winBalls, setWinBalls] = useState([]);
   const lottoNumbers = useMemo(() => getWinNumbers(), [winNumbers]); // 두번 째 인자가 바뀔 때만 다시 실행됨
   const [winNumbers, setWinNumbers] = useState(lottoNumbers);
   const [bonus, setBonus] = useState(null);
   const [redo, setRedo] = useState(false);
   const timeouts = useRef([]);
+  
+  // const mounted = useRef(false);
+  // useEffect(() => {
+  //   if(!mounted.current) {
+  //     mounted.current = true;
+  //   } else {
+  //     // 이렇게 작업 하면 componentDidUpdate 와 똑같이 쓸 수 있음.
+  //   }
+  // }, [원하는 값]);
   
   useEffect(() => {
     console.log("useEffect");
@@ -46,6 +56,10 @@ const Lotto = () => {
   // 배열에 요소가 있으면 componentDidMount, componentDidUpdate 역할을 함
   // 조건을 추가해 줄 수도 있음
   
+  useEffect(() => {
+    console.log("로또 숫자를 생성합니다.");
+  }, [winNumbers]);
+
   // useCallback은 함수 자체를 기억함
   const onClickRedo = useCallback(() => {
     console.log("onClickRedo", winNumbers);
