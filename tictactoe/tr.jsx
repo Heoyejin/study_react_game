@@ -1,9 +1,11 @@
 import React from 'react';
 import Td from './td';
 
-const Tr = () => {
+const Tr = ({ rowData }) => {
   return (
-    <Td></Td>
+    <tr>
+      {Array(rowData.length).fill().map(() => <Td></Td>)}
+    </tr>
   )
 }
 export default Tr;
