@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import Ball from './Ball';
 
 function getWinNumbers() {
@@ -16,12 +16,14 @@ function getWinNumbers() {
 }
 
 const Lotto = () => {
-  const [winNumbers, setWinNumbers] = useState(getWinNumbers());
+  // useMemo: 복잡한 함수 결과 값(함수의 return 값)을 기억함, useRef: 일반 값을 기억함
   const [winBalls, setWinBalls] = useState([]);
+  const lottoNumbers = useMemo(() => getWinNumbers(), [winNumbers]); // 두번 째 인자가 바뀔 때만 다시 실행됨
+  const [winNumbers, setWinNumbers] = useState(lottoNumbers);
   const [bonus, setBonus] = useState(null);
   const [redo, setRedo] = useState(false);
   const timeouts = useRef([]);
-
+  
   useEffect(() => {
     console.log("useEffect");
     for (let i = 0; i < winNumbers.length - 1; i++) {
@@ -43,15 +45,17 @@ const Lotto = () => {
   }, [timeouts.current]);   // inputs가 빈 배열이면 componentDidMount와 동일함.
   // 배열에 요소가 있으면 componentDidMount, componentDidUpdate 역할을 함
   // 조건을 추가해 줄 수도 있음
-
-  const onClickRedo = () => {
+  
+  // useCallback은 함수 자체를 기억함
+  const onClickRedo = useCallback(() => {
+    console.log("onClickRedo", winNumbers);
     setWinNumbers(getWinNumbers());  // 당첨 숫자들
     setWinBalls([]);
     setBonus(null); // 보너스 공
     setRedo(false)
     // 여기서 timeouts.current가 변경됨
     timeouts.current = [];
-  }
+  }, [winNumbers]) // 
 
   return (
     <>
@@ -60,7 +64,8 @@ const Lotto = () => {
       {winBalls.map((v, i) => <Ball key={v + i} number={v} />)}
     </div>
     <div>보너스 !!</div>
-    {bonus && <Ball number={bonus} />}
+    {/* 자식 컴포넌트에 함수를 전달해주는 경우 useCallback을 무조건 사용해줘야함 */}
+    {bonus && <Ball number={bonus} onClick={onClickRedo}/>}
     {redo && <button onClick={onClickRedo}>한 번 더 !!</button>}
     </>
   )
