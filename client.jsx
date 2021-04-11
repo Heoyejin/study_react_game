@@ -11,6 +11,7 @@ const ReactDom = require('react-dom');
 // import RockScissorsPaper from './rock_scissors_paper/RockScissorsPaper_hooks';
 // import Lotto from './lotto/lotto_hooks';
 // import TicTacToe from './tictactoe/ticTacToe';
-import MineSearch from './mineSearch/mineSearch';
+// import MineSearch from './mineSearch/mineSearch';
+import Games from './react-router/games';
 
-ReactDom.render(<MineSearch />, document.querySelector('#root'));
+ReactDom.render(<Games />, document.querySelector('#root'));
