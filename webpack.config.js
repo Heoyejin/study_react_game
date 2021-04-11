@@ -54,6 +54,7 @@ module.exports = {
     publicPath: '/dist/'
   }, // 출력
   devServer: {
+    historyApiFallback: true,
     publicPath: '/dist/',
     hot: true,
     host: "localhost",
