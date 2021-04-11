@@ -42,23 +42,25 @@ const plantMine = (row, cell, mine) => {
 }
 
 export const TableContext = createContext({
-  tableData: [
-    [],
-    [],
-    [],
-    [],
-    []
-  ],
+  tableData: [],
+  halted: true,
   dispatch: () => {}
 });
 
 export const START_GAME = 'START_GAME';
+export const OPEN_CELL = 'OPEN_CELL';
+export const CLICK_MINE = 'CLICK_MINE';
+export const NORMALIZE_CELL = 'NORMALIZE_CELL';
+export const QUESTION_CELL = 'QUESTION_CELL';
+export const FLAG_CELL = 'FLAG_CELL';
 
 // state 선언 구간 
 const initialState = {
   tableData: [],
   timer: 0,
-  result: ''
+  result: '',
+  // 게임 멈추는 변수
+  halted: true
 };
 
 // setState 하는 구간 
@@ -67,8 +69,54 @@ const reducer = (state, action) => {
     case START_GAME: 
       return {
         ...state,
-        tableData: plantMine(action.row, action.cell, action.mine)
+        tableData: plantMine(action.row, action.cell, action.mine),
+        halted: false
       }
+    case OPEN_CELL:
+      const tableData = [...state.tableData];
+      tableData[action.row] = [...state.tableData[action.row]];
+      tableData[action.row][action.cell] = CODE.OPENED;
+      return {
+        ...state,
+        tableData
+      }
+    case CLICK_MINE:{
+      const tableData = [...state.tableData];
+      tableData[action.row] = [...state.tableData[action.row]];
+      tableData[action.row][action.cell] = CODE.CLICKED_MINE;
+      return {
+        ...state,
+        tableData,
+        halted: true
+      }
+    }
+    case FLAG_CELL: {
+      const tableData = [...state.tableData];
+      tableData[action.row] = [...state.tableData[action.row]];
+      tableData[action.row][action.cell] = tableData[action.row][action.cell] === CODE.MINE ? CODE.FLAG_MINE : CODE.FLAG;
+      return {
+        ...state,
+        tableData,
+      }
+    }
+    case QUESTION_CELL: {
+      const tableData = [...state.tableData];
+      tableData[action.row] = [...state.tableData[action.row]];
+      tableData[action.row][action.cell] = tableData[action.row][action.cell] === CODE.FLAG_MINE ? CODE.QUESTION_MINE : CODE.QUESTION;
+      return {
+        ...state,
+        tableData,
+      }
+    }
+    case NORMALIZE_CELL: {
+      const tableData = [...state.tableData];
+      tableData[action.row] = [...state.tableData[action.row]];
+      tableData[action.row][action.cell] = tableData[action.row][action.cell] === CODE.QUESTION_MINE ? CODE.MINE : CODE.NORMAL;
+      return {
+        ...state,
+        tableData,
+      }
+    }
     default:
       return state;
   }
@@ -79,8 +127,9 @@ const MineSearch = () => {
   
   const value = useMemo(() => ({
     tableData: state.tableData, 
+    halted: state.halted,
     dispatch 
-  }), [state.tableData]);
+  }), [state.tableData, state.halted]);
 
   return (
     // provider로 감싸 줘야 이 내부의 컴포넌트에서 TableContext 사용가능
