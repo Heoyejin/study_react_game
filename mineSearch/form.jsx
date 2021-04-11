@@ -1,11 +1,11 @@
 import React, { useState, useCallback, useContext } from 'react';
-import TableContext, { START_GAME } from './mineSearch';
+import { TableContext, START_GAME } from './mineSearch';
 
-const Form = ({ }) => {
+const Form = () => {
   const [row, setRow] = useState(10);
   const [cell, setCell] = useState(10);
   const [mine, setMine] = useState(10);
-  const value = useContext(TableContext);
+  const { dispatch } = useContext(TableContext);
 
   const onChangeRow = useCallback((e) => {
     setRow(e.target.value);
@@ -28,7 +28,7 @@ const Form = ({ }) => {
       <input type='number' placeholder='세로' value={row} onChange={onChangeRow}></input>
       <input type='number' placeholder='가로' value={cell} onChange={onChangeCell}></input>
       <input type='number' placeholder='지뢰' value={mine} onChange={onChangeMine}></input>
-      <button onClick={onClickButton}></button>
+      <button onClick={onClickButton}>시작</button>
     </div>
   )
 }
