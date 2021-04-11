@@ -1,4 +1,4 @@
-import React, { createContext, useMemo, useReducer } from 'react';
+import React, { createContext, useEffect, useMemo, useReducer } from 'react';
 import Table from './table';
 import Form from './form';
 
@@ -47,21 +47,29 @@ export const TableContext = createContext({
   dispatch: () => {}
 });
 
-export const START_GAME = 'START_GAME';
-export const OPEN_CELL = 'OPEN_CELL';
-export const CLICK_MINE = 'CLICK_MINE';
-export const NORMALIZE_CELL = 'NORMALIZE_CELL';
-export const QUESTION_CELL = 'QUESTION_CELL';
-export const FLAG_CELL = 'FLAG_CELL';
-
 // state 선언 구간 
 const initialState = {
   tableData: [],
   timer: 0,
   result: '',
   // 게임 멈추는 변수
-  halted: true
+  halted: true,
+  openedCount: 0,
+  data: {
+    row : 0, 
+    cell: 0, 
+    mine: 0
+  },
 };
+
+export const START_GAME = 'START_GAME';
+export const OPEN_CELL = 'OPEN_CELL';
+export const CLICK_MINE = 'CLICK_MINE';
+export const NORMALIZE_CELL = 'NORMALIZE_CELL';
+export const QUESTION_CELL = 'QUESTION_CELL';
+export const FLAG_CELL = 'FLAG_CELL';
+export const INCREMENT_TIMER = 'INCREMENT_TIMER';
+
 
 // setState 하는 구간 
 const reducer = (state, action) => {
@@ -69,8 +77,15 @@ const reducer = (state, action) => {
     case START_GAME: 
       return {
         ...state,
+        data: {
+          row : action.row, 
+          cell: action.cell, 
+          mine: action.mine
+        },
         tableData: plantMine(action.row, action.cell, action.mine),
-        halted: false
+        halted: false,
+        openedCount: 0,
+        timer: 0
       }
     case OPEN_CELL:
       const tableData = [...state.tableData];
@@ -79,15 +94,16 @@ const reducer = (state, action) => {
         tableData[i] = [...row];
       });
       const checked = [];
+      let openedCount = 0;
       const checkArround = (row, cell) => {
         // 상하좌우 없는 칸은 열지 않기
-        if ([CODE.OPENED, CODE.FLAG_MINE, CODE.FLAG, CODE.QUESTION_MINE, CODE.QUESTION].includes((tableData[row][cell]))) return;
         if (row < 0 || row >= tableData.length || cell < 0 || cell >= tableData[0].length) return;
+        if ([CODE.OPENED, CODE.FLAG_MINE, CODE.FLAG, CODE.QUESTION_MINE, CODE.QUESTION].includes((tableData[row][cell]))) return;
         
         // 한번 검사한 셀은 다시 호출 하지 않는 로직 추가
         if (checked.includes(row + ',' + cell)) return; 
         else checked.push(row + ',' + cell);
-  
+
         // 한 번 연 칸은 무시하기
         let around = [
           tableData[row][cell - 1], tableData[row][cell + 1],
@@ -118,8 +134,7 @@ const reducer = (state, action) => {
   
         const count = around.filter((v) => [CODE.MINE, CODE.FLAG_MINE, CODE.QUESTION_MINE].includes(v)).length;
         console.log(around, count);
-        tableData[row][cell] = count;
-        
+
         if (count === 0) {
           const near = [];
           if (row - 1 > -1) { 
@@ -142,12 +157,24 @@ const reducer = (state, action) => {
             }
           });
         }
+        if (tableData[row][cell] === CODE.NORMAL) openedCount += 1;
         tableData[row][cell] = count; 
       };
       checkArround(action.row, action.cell);
+      // 승리 조건 체크 
+      let halted = false,
+        result = '';
+      if (state.data.row * state.data.cell - state.data.mine === state.openedCount * openedCount) {
+        // 승리
+        halted = true;
+        result = `${state.timer}초만에 승리하셨습니다.`
+      }
       return {
         ...state,
-        tableData
+        tableData,
+        openedCount: state.openedCount + openedCount,
+        halted,
+        result
       }
     case CLICK_MINE: {
       const tableData = [...state.tableData];
@@ -186,6 +213,12 @@ const reducer = (state, action) => {
         tableData,
       }
     }
+    case INCREMENT_TIMER : {
+      return {
+        ...state,
+        timer: state.timer + 1
+      }
+    }
     default:
       return state;
   }
@@ -197,9 +230,20 @@ const MineSearch = () => {
   const value = useMemo(() => ({
     tableData: state.tableData, 
     halted: state.halted,
+    openedCount: state.openedCount,
     dispatch 
   }), [state.tableData, state.halted]);
 
+  useEffect(() => {
+    if (!state.halted) {
+      const timer = setInterval(() => {
+        dispatch({ type: INCREMENT_TIMER })
+      }, 1000);
+      return () => {
+        clearInterval(timer);
+      }
+    }
+  }, [state.halted])
   return (
     // provider로 감싸 줘야 이 내부의 컴포넌트에서 TableContext 사용가능
     // Context API는 아래 value를 계속 다시 생성하기 때문에  성능 최적화에 어려움이 있음
