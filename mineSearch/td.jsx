@@ -1,4 +1,4 @@
-import React, { memo, useContext, useCallback } from 'react';
+import React, { memo, useContext, useCallback, useMemo } from 'react';
 import { TableContext, CODE, OPEN_CELL, CLICK_MINE, NORMALIZE_CELL, QUESTION_CELL, FLAG_CELL } from './mineSearch';
 
 const getTdStyle = (code) => {
@@ -31,7 +31,7 @@ const getTdStyle = (code) => {
 };
 
 const getTdText = (code) => {
-  console.log("getTdText", code);
+  console.log("getTdText - 실제 render 는 한번만 됨 (useMemo 사용)", code);
   switch (code) {
     case CODE.NORMAL:
       return '';
@@ -54,7 +54,6 @@ const Td = memo(({ rowIndex, cellIndex}) => {
 
   const onClickTd = useCallback(() => {
     if (halted) return;
-    console.log(tableData[rowIndex][cellIndex]);
 
     switch (tableData[rowIndex][cellIndex]) {
       case CODE.OPENED:
@@ -75,7 +74,6 @@ const Td = memo(({ rowIndex, cellIndex}) => {
   }, [tableData[rowIndex][cellIndex], halted])
 
   const onRightClickTd = useCallback((e) => {
-    console.log(tableData[rowIndex][cellIndex]);
     if (halted) return;
     
     e.preventDefault();
@@ -97,14 +95,30 @@ const Td = memo(({ rowIndex, cellIndex}) => {
     }
   }, [tableData[rowIndex][cellIndex], halted])
 
+  console.log("Td rendered - 함수 실행은 여러번 실행되지만 ");
+  // return useMemo(() => (
+  //   <td
+  //     style={getTdStyle(tableData[rowIndex][cellIndex])}
+  //     onClick={onClickTd}
+  //     onContextMenu= {onRightClickTd}
+  //   >
+  //     {getTdText(tableData[rowIndex][cellIndex])}
+  //   </td>
+  // ), [tableData[rowIndex][cellIndex]]);
+
+  // useMemo, memo 두가지 방법으로 사용가능
+  return <RealTd onClickTd={onClickTd} onRightClickTd={onRightClickTd} data={tableData[rowIndex][cellIndex]} />;
+})
+
+const RealTd = memo(({ onClickTd, onRightClickTd, data}) => {
+  console.log('real td rendered');
   return (
     <td
-      style={getTdStyle(tableData[rowIndex][cellIndex])}
+      style={getTdStyle(data)}
       onClick={onClickTd}
-      onContextMenu= {onRightClickTd}
-    >
-      {getTdText(tableData[rowIndex][cellIndex])}
-    </td>
+      onContextMenu={onRightClickTd}
+    >{getTdText(data)}</td>
   )
-})
+});
+
 export default Td;
