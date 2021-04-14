@@ -5,7 +5,10 @@ import Lotto from '../lotto/lotto';
 
 class GameMatcher extends Component {
   render() {
-    console.log(this.props);if (this.props.match.params.name === "rock_scissors_paper") {
+    console.log(this.props);
+    let urlParams = new URLSearchParams(this.props.location.search.slice(1));
+    console.log(urlParams.get('hello'));
+    if (this.props.match.params.name === "rock_scissors_paper") {
       return <Lotto></Lotto>;
     } else if (this.props.match.params.name === "lotto") {
       return <RSP></RSP>
