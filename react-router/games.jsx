@@ -10,6 +10,7 @@ const Games = () => {
       {/* <a href=''>숫자야구</a> */}
       <Link to="/game/lotto?query=10&hello=yejin">로또</Link> &nbsp;
       <Link to='/game/rock_scissors_paper'>가위바위보</Link> &nbsp;
+      <Link to='/game/number_baseball'>숫자야구</Link> &nbsp;
       <Link to='/game/index'>게임 매쳐</Link>
     </div>
     <div>
@@ -22,10 +23,6 @@ const Games = () => {
       {/* 아래 주소처럼 /game/mineSearch 이런식의 주소는 / 주소도 일치한다고 생각하기 때문에 exact를 사용*/}
       <Route exact path='/' render={(props) => <GameMatcher {...props}/>}></Route>
       <Route path='/game/mineSearch' render={(props) => <GameMatcher {...props}/>}></Route>
-      <Route path='/game/mineSearch' render={(props) => <GameMatcher {...props}/>}></Route>
-      <Route path='/game/mineSearch' render={(props) => <GameMatcher {...props}/>}></Route>
-      <Route path='/game/mineSearch' render={(props) => <GameMatcher {...props}/>}></Route>
-      <Route path='/game/mineSearch' render={(props) => <GameMatcher {...props}/>}></Route>=
       </Switch>
     </div>
     </BrowserRouter>

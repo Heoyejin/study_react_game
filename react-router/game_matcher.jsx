@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {withRouter} from 'react-router-dom';
 import RSP from '../rock_scissors_paper/RockScissorsPaper_hooks';
 import Lotto from '../lotto/lotto';
+import NumberBaseball from '../number_baseball/numberBaseBall_hooks';
 
 class GameMatcher extends Component {
   render() {
@@ -12,6 +13,8 @@ class GameMatcher extends Component {
       return <Lotto></Lotto>;
     } else if (this.props.match.params.name === "lotto") {
       return <RSP></RSP>
+    } else if (this.props.match.params.name === "number_baseball") {
+      return <NumberBaseball></NumberBaseball>
     } 
     return (
       <div>
